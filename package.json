@@ -1,0 +1,28 @@
+{
+    "author": "Karambola",
+    "dependencies": {},
+    "keywords": [],
+    "name": "gifgen",
+    "pebble": {
+        "capabilities": [
+            ""
+        ],
+        "displayName": "GIF generator",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "4736999a-9ce4-4973-97aa-fd60540cb2d4",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
