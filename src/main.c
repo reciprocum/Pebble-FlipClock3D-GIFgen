@@ -17,7 +17,7 @@
 
 
 // GIF related
-#define GIF_FRAME_STOP        9491
+#define GIF_FRAME_STOP        200
 #define GIF_SLOWDOWN_FACTOR   3
 static int        gifStep   = 0 ;
 

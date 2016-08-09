@@ -1,6 +1,11 @@
-#pragma once
+/*
+   File  : FastMath.h
+   FAST MATH OPERATIONS ON FLOATS
 
-// FAST MATH OPERATIONS ON FLOATS
+   Last revision: 16h55 August 06 2016
+*/
+
+#pragma once
 
 #define PI_2       6.28318531
 #define PI_1       3.14159265

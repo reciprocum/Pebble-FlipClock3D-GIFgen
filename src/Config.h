@@ -12,3 +12,6 @@
 
 // Commenting the next line will enable antialised and thick strokes.
 //#define QEMU
+
+// Uncoment next line to "fake" running on APLITE/DIORITE B&W platforms.
+#undef PBL_COLOR

@@ -97,13 +97,13 @@ const unsigned char *SEG_N7SKINBONE_DIGIT_EDGEMAP_L2R[10]                 // IMP
 const unsigned char *SEG_N7BONESKIN_BONEMASK_L2R                // IMPORTANT: use left to right (L2R) bit indexing methods when decoding.
 // Bit index ruller    [00..07]    [08..15]    [16..23]    [24..31]
 //                     00000000    00111111    11112222    22222233
-//                     01234567    89012345    67890123    45678901                            [...........BONE..........]
-= (unsigned char[]){ 0b11111111, 0b11111111, 0b11111111, 0b00000000 }   // edge mask for bone: e24 e25 e26 e27 e28 e29 e30
+//                     01234567    89012345    67890123    45678901
+= (unsigned char[]){ 0b11111111, 0b11111111, 0b11111111, 0b00000000 }
 ;
 
 const unsigned char *SEG_N7SKINBONE_BONEMASK_L2R                // IMPORTANT: use left to right (L2R) bit indexing methods when decoding.
 // Bit index ruller    [00..07]    [08..15]    [16..23]    [24..31]
 //                     00000000    00111111    11112222    22222233
-//                     01234567    89012345    67890123    45678901                            [...........BONE..........]
-= (unsigned char[]){ 0b00000000, 0b00000000, 0b00000000, 0b11111111 }   // edge mask for bone: e24 e25 e26 e27 e28 e29 e30
+//                     01234567    89012345    67890123    45678901
+= (unsigned char[]){ 0b00000000, 0b00000000, 0b00000000, 0b11111111 }
 ;

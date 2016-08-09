@@ -1,4 +1,9 @@
-// FAST MATH OPERATIONS ON FLOATS
+/*
+   File  : FastMath.c
+   FAST MATH OPERATIONS ON FLOATS
+
+   Last revision: 16h55 August 06 2016
+*/
 
 #include "Config.h"
 #include "FastMath.h"

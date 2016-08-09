@@ -2,7 +2,7 @@
    File  : Edge.h
    Author: Afonso Santos, Portugal
 
-   Last revision: 17h40 August 05 2016
+   Last revision: 16h35 August 06 2016
 */
 
 #pragma once
@@ -19,6 +19,6 @@ typedef struct
 
 typedef struct
 {
-  int16_t  edgesNum ;
-  Edge    *edges ;
+  uint16_t  edgesNum ;
+  Edge     *edges ;
 } EdgeInfo ;

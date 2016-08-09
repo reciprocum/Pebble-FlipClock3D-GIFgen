@@ -2,7 +2,7 @@
    File  : Mesh.c
    Author: Afonso Santos, Portugal
 
-   Last revision: 13h05 August 05 2016
+   Last revision: 16h05 August 06 2016
 */
 
 #include "Config.h"
@@ -421,7 +421,12 @@ Mesh_draw
 
   if (!hasAlternateEdges)
   {
+#ifdef PBL_COLOR
     graphics_context_set_stroke_color( gCtx, mesh->strokeColor ) ;
+#else
+    graphics_context_set_stroke_color( gCtx, GColorWhite ) ;
+#endif
+
     graphics_context_set_stroke_width( gCtx, mesh->strokeWidth ) ;
   }
 
@@ -433,12 +438,22 @@ Mesh_draw
       {
         if (Binary_isSetL2R( mesh->edgeAlternateMask_L2R, me ))
         {
+#ifdef PBL_COLOR
           graphics_context_set_stroke_color( gCtx, mesh->strokeColorAlternate ) ;
+#else
+          graphics_context_set_stroke_color( gCtx, GColorWhite ) ;
+#endif
+
           graphics_context_set_stroke_width( gCtx, mesh->strokeWidthAlternate ) ;
         }
         else
         {
+#ifdef PBL_COLOR
           graphics_context_set_stroke_color( gCtx, mesh->strokeColor ) ;
+#else
+          graphics_context_set_stroke_color( gCtx, GColorWhite ) ;
+#endif
+
           graphics_context_set_stroke_width( gCtx, mesh->strokeWidth ) ;
         }
       }
