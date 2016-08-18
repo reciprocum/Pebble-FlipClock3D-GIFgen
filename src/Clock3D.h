@@ -2,7 +2,7 @@
    File  : Clock3D.h
    Author: Afonso Santos, Portugal
 
-   Last revision: 13h50 August 08 2016
+   Last revision: 13h45 August 14 2016
 */
 
 #pragma once
@@ -77,10 +77,10 @@ Clock3D_setTime_DDHHMMSS
 
 void
 Clock3D_draw
-( GContext      *gCtx
-//, Clock3D          *this    // TODO
-, const Cam3D   *cam
-, const int      w
-, const int      h
-, const uint8_t  transparencyMode
+( GContext                      *gCtx
+//, Clock3D                     *this    // TODO
+, const Cam3D                   *cam
+, const int                      w
+, const int                      h
+, const Mesh3D_TransparencyMode  transparency
 ) ;

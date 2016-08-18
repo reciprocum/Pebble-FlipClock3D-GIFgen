@@ -3,7 +3,7 @@
    File   : main.c
    Author : Afonso Santos, Portugal
 
-   Last revision: 15h00 August 08 2016
+   Last revision: 14h35 August 14 2016
 */
 
 #include "Config.h"
@@ -14,11 +14,10 @@
 #include "TransformR3.h"
 #include "Clock3D.h"
 #include "Interpolations.h"
+#include "main.h"
 
 
 // GIF related
-#define GIF_FRAME_STOP        200
-#define GIF_SLOWDOWN_FACTOR   3
 static int        gifStep   = 0 ;
 
 // UI related
@@ -27,19 +26,15 @@ static Layer          *world_layer ;
 static ActionBarLayer *action_bar;
 
 // World related
-#define WORLD_MODE_LAUNCH         1
-#define WORLD_MODE_PARK           2
-#define WORLD_MODE_STEADY         3
+typedef enum { WORLD_MODE_UNDEFINED
+             , WORLD_MODE_LAUNCH
+             , WORLD_MODE_PARK
+             , WORLD_MODE_STEADY
+             }
+WorldMode ;
 
-//#define TRANSPARENCY_DEFAULT      MODE_3D_TRANSPARENCY_XRAY
-#define TRANSPARENCY_DEFAULT      MODE_3D_TRANSPARENCY_SOLID
 
-// Animation related
-#define ANIMATION_INTERVAL_MS     40
-#define ANIMATION_FLIP_STEPS      50
-#define ANIMATION_SPIN_STEPS      75
-
-static int    world_mode          = -1 ;         // Undefined.
+static WorldMode    world_mode    = WORLD_MODE_UNDEFINED ;
 
 float    *spinRotationFraction    = NULL ;   // To be allocated at world_initialize( ).
 float    *animRotationFraction    = NULL ;   // To be allocated at world_initialize( ).
@@ -55,15 +50,15 @@ static float   spin_rotation  = SPIN_ROTATION_HHMM ;   // Initial spin rotation 
 
 
 // Camera related
-#define  CAM_DISTANCE    (2.2 * CUBE_SIZE)
+#define  CAM_DISTANCE           (2.2 * CUBE_SIZE)
+#define  CAM_VIEWPOINT_STEADY   (R3){ .x = -0.1f, .y = 1.0f, .z = 0.7f }
 
-static Cam3D        cam ;
-static float        cam_zoom              = PBL_IF_RECT_ELSE(1.25, 1.14) ;
-static uint8_t      cam_projectionMode    = MODE_3D_PROJECTION_PERSPECTIVE ;
+static Cam3D  cam ;
+static float  cam_zoom = PBL_IF_RECT_ELSE(1.25f, 1.14f) ;
 
 
 // Forward declarations.
-void  set_world_mode( uint8_t worldMode ) ;
+void  set_world_mode( WorldMode pWorldMode ) ;
 void  world_update_timer_handler( void *data ) ;
 
 
@@ -79,29 +74,8 @@ void
 clock_updateTime
 ( const int pTick )
 {
-  /* GIF#1
-  const int baseDD = 31 ;
-  const int baseHH = 19 ;
-  const int baseMM = 49 ;
-  const int baseSS = 26 ;
-  */
-
-  /* GIF#2
-  const int baseDD = 27 ;
-  const int baseHH =  9 ;
-  const int baseMM = 57 ;
-  const int baseSS = 26 ;  // ???
-  */
-
-  const int baseDD = 29 ;
-  const int baseHH = 23 ;
-  const int baseMM = 57 ;
-  const int baseSS = 26 ;  // ???
-  /* GIF#3
-  */
-
   const int elapsedSec = pTick / GIF_SLOWDOWN_FACTOR  ;
-  const int timeSec    = 60 * (60 * (24 * baseDD  +  baseHH)  +  baseMM)   +  baseSS  + elapsedSec ;
+  const int timeSec    = 60 * (60 * (24 * GIF_BASE_DD  +  GIF_BASE_HH)  +  GIF_BASE_MM)   +  GIF_BASE_SS  + elapsedSec ;
 
   const int clockDD = (timeSec / (24*60*60))      ;
   const int clockHH = (timeSec / (60*60))    % 24 ;
@@ -175,42 +149,35 @@ gifStepper_click_config_provider
 }
 
 
-static
 void
 cam_config
-( const float fromX
-, const float fromY
-, const float fromZ
+( R3         *viewPoint
 , const float rotationZ
 )
 {
-  static R3  cam_viewPoint ;
-
-  R3_set( &cam_viewPoint, fromX, fromY, fromZ ) ;
-  R3_scale( CAM_DISTANCE, &cam_viewPoint ) ;
-  TransformR3_rotateZ( &cam_viewPoint, rotationZ ) ;
-
   // setup 3D camera
-  Cam3D_setup( &cam
-             , &cam_viewPoint       // View point.
-             , &R3_origin           // Looking at.
-             , &R3_versorPlusZ      // Vertical reference.
-             , cam_zoom             // Zoom
-             , cam_projectionMode   // projection mode.
-             ) ;
+  Cam3D_lookAtOriginUpwards( &cam
+                           , TransformR3_rotateZ( R3_scale( CAM_DISTANCE    // View point.
+                                                          , viewPoint
+                                                          )
+                                                , rotationZ
+                                                )
+                           , cam_zoom                                       // Zoom
+                           , CAM3D_PROJECTION_PERSPECTIVE
+                           ) ;
 }
 
 
 void
 set_world_mode
-( uint8_t worldMode )
+( WorldMode pWorldMode )
 {
 #ifdef LOG
-  APP_LOG( APP_LOG_LEVEL_DEBUG, "set_world_mode:: worldMode = %d", worldMode ) ;
+  APP_LOG( APP_LOG_LEVEL_DEBUG, "set_world_mode:: pWorldMode = %d", pWorldMode ) ;
 #endif
 
   // Start-up entering mode. Subscribe to newly needed services. Apply relevant configurations.
-  switch (world_mode = worldMode)
+  switch (world_mode = pWorldMode)
   {
     case WORLD_MODE_LAUNCH:
       launch_animStep = ANIMATION_SPIN_STEPS ;
@@ -304,7 +271,7 @@ world_update
     break ;
   }
 
-  cam_config( -0.1, 1.0, 0.7, cam_rotation ) ;
+  cam_config( &CAM_VIEWPOINT_STEADY, cam_rotation ) ;
 
   // this will queue a defered call to the world_draw( ) method.
   layer_mark_dirty( world_layer ) ;
@@ -326,7 +293,7 @@ world_update_timer_handler
 }
 
 
-static void
+void
 world_draw
 ( Layer    *me
 , GContext *gCtx
