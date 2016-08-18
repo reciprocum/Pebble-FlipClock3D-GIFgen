@@ -4,9 +4,6 @@
     "keywords": [],
     "name": "gifgen",
     "pebble": {
-        "capabilities": [
-            ""
-        ],
         "displayName": "GIF generator",
         "enableMultiJS": true,
         "messageKeys": [],
@@ -17,7 +14,8 @@
         "sdkVersion": "3",
         "targetPlatforms": [
             "basalt",
-            "chalk"
+            "chalk",
+            "diorite"
         ],
         "uuid": "4736999a-9ce4-4973-97aa-fd60540cb2d4",
         "watchapp": {

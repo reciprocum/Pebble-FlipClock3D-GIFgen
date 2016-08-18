@@ -10,7 +10,7 @@
 
 
 // GIF related
-#define GIF_FRAME_STOP        0
+#define GIF_FRAME_STOP        200
 #define GIF_SLOWDOWN_FACTOR   3
 
 /* GIF#01 */

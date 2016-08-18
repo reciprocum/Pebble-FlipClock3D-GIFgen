@@ -8,7 +8,7 @@
 #pragma once
 
 // Uncommenting the next line will enable all LOG* calls.
-//#define LOG
+#define LOG
 
 // Commenting the next line will enable antialised and thick strokes.
 //#define QEMU
