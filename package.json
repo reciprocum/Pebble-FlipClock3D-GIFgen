@@ -1,7 +1,7 @@
 {
     "author": "Karambola",
     "dependencies": {
-        "karambola": "https://builds-beta.cloudpebble.net/fa17c1d1-9d60-4c56-9c83-9b28605b50fa/package.tar.gz"
+        "karambola": "https://builds.cloudpebble.net/f72d047e-bf91-497d-84cf-e560c5de4e61/package.tar.gz"
     },
     "keywords": [],
     "name": "gifgen",

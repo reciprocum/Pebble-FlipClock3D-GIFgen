@@ -3,7 +3,7 @@
    File   : main.c
    Author : Afonso Santos, Portugal
 
-   Last revision: 19h05 August 29 2016
+   Last revision: 15h44 September 03 2016  GMT
 */
 
 #include <pebble.h>
@@ -47,11 +47,11 @@ static float   s_spin_rotation  = SPIN_ROTATION_HHMM ;   // Initial spin rotatio
 
 
 // Camera related
-#define  CAM_DISTANCE           (2.2 * CUBE_SIZE)
-#define  CAM_VIEWPOINT_STEADY   (R3){ .x = -0.1f, .y = 1.0f, .z = 0.7f }
+#define  CAM_DISTANCE           (+2.2f * CUBE_SIZE)
+#define  CAM_VIEWPOINT_STEADY   (R3){ .x = -0.1f, .y = +1.0f, .z = +0.7f }
 
 static CamR3  s_cam ;
-static float  s_cam_zoom = PBL_IF_RECT_ELSE(1.25f, 1.14f) ;
+static float  s_cam_zoom = PBL_IF_RECT_ELSE(+1.25f, +1.14f) ;
 
 
 // Animation related
@@ -87,7 +87,7 @@ gifStepper_advance_click_handler
 )
 {
   ++s_gifStep ;
-  app_timer_register( ANIMATION_INTERVAL_MS, world_update_timer_handler, NULL ) ;   // Schedule a world update.
+  app_timer_register( 0, world_update_timer_handler, NULL ) ;   // Schedule a world update.
 }
 
 
@@ -98,7 +98,7 @@ gifStepper_jump_click_handler
 )
 {
   s_gifStep += 176 - ANIMATION_FLIP_STEPS ;  // Advance 1 minute
-  app_timer_register( ANIMATION_INTERVAL_MS, world_update_timer_handler, NULL ) ;   // Schedule a world update.
+  app_timer_register( 0, world_update_timer_handler, NULL ) ;   // Schedule a world update.
 }
 
 
@@ -110,7 +110,7 @@ gifStepper_reset_click_handler
 {
   s_gifStep = 0 ;
   set_world_mode( WORLD_MODE_LAUNCH ) ;
-  app_timer_register( ANIMATION_INTERVAL_MS, world_update_timer_handler, NULL ) ;   // Schedule a world update.
+  app_timer_register( 0, world_update_timer_handler, NULL ) ;   // Schedule a world update.
 }
 
 
@@ -143,23 +143,20 @@ gifStepper_click_config_provider
 }
 
 
-static
 void
 cam_config
-( R3         *viewPoint
-, const float rotationZ
+( const R3   *pViewPoint
+, const float pRotZrad
 )
 {
+  R3 scaledVP ;
+  R3_scaTo( &scaledVP, CAM_DISTANCE, pViewPoint ) ;
+
+  R3 rotatedVP ;
+  R3_rotZrad( &rotatedVP, &scaledVP, pRotZrad ) ;
+
   // setup 3D camera
-  CamR3_lookAtOriginUpwards( &s_cam
-                           , TransformR3_rotateZ( R3_scale( CAM_DISTANCE    // View point.
-                                                          , viewPoint
-                                                          )
-                                                , rotationZ
-                                                )
-                           , s_cam_zoom                                     // Zoom
-                           , CAM_PROJECTION_PERSPECTIVE
-                           ) ;
+  CamR3_lookAtOriginUpwards( &s_cam, &rotatedVP, s_cam_zoom, CAM_PROJECTION_PERSPECTIVE ) ;
 }
 
 
@@ -201,9 +198,9 @@ interpolations_initialize
                                    , ANIMATION_FLIP_STEPS
                                    ) ;
 
-  Interpolator_TrigonometricYoYo( animTranslationFraction = malloc((ANIMATION_FLIP_STEPS+1)*sizeof(float))
-                                , ANIMATION_FLIP_STEPS
-                                ) ;
+  Interpolator_SinYoYo( animTranslationFraction = malloc((ANIMATION_FLIP_STEPS+1)*sizeof(float))
+                      , ANIMATION_FLIP_STEPS
+                      ) ;
 }
 
 
@@ -298,7 +295,7 @@ world_update_timer_handler
   world_update( ) ;
 
   // Call me again ?
-  if (s_gifStep < GIF_FRAME_STOP)
+  if (s_gifStep < GIF_STOP_COUNT)
   {
     ++s_gifStep ;
     app_timer_register( ANIMATION_INTERVAL_MS, world_update_timer_handler, data ) ;  // Schedule next animation frame.

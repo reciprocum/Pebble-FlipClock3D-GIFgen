@@ -3,14 +3,14 @@
    File   : main.h
    Author : Afonso Santos, Portugal
 
-   Last revision: 18h45 August 22 2016
+   Last revision: 15h44 September 03 2016  GMT
 */
 
 #include <pebble.h>
 
 
 // GIF related
-#define GIF_FRAME_STOP        2000
+#define GIF_STOP_COUNT        2000
 #define GIF_SLOWDOWN_FACTOR   3
 
 /* GIF#01 */

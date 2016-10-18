@@ -3,19 +3,13 @@
    File   : Config.h
    Author : Afonso Santos, Portugal
 
-   Last revision: 12h0045 August 09 2016
+   Last revision: 15h44 September 03 2016  GMT
 */
 
 #pragma once
 
 // Uncommenting the next line will enable all LOG* calls.
 //#define LOG
-
-// Commenting the next line will enable native graphics (antialised and thick strokes).
-#define QEMU
-
-// Uncoment next line to "fake" running on APLITE/DIORITE B&W platforms.
-//#undef PBL_COLOR
 
 #ifdef LOG
   #define LOGD(fmt, ...) APP_LOG(APP_LOG_LEVEL_DEBUG, fmt, ##__VA_ARGS__)
