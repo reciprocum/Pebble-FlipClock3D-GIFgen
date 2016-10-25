@@ -3,7 +3,7 @@
    File   : main.c
    Author : Afonso Santos, Portugal
 
-   Last revision: 15h44 September 03 2016  GMT
+   Last revision: 25 October 2016
 */
 
 #include <pebble.h>
@@ -92,6 +92,16 @@ gifStepper_advance_click_handler
 
 
 void
+gif_dummy_click_handler
+( ClickRecognizerRef recognizer
+ , void              *context
+)
+{
+  // Sole purpouse to have something awake the QEMU's "backlight" (to be able to take a brighter screen capture).
+}
+
+
+void
 gifStepper_jump_click_handler
 ( ClickRecognizerRef recognizer
 , void              *context
@@ -115,17 +125,6 @@ gifStepper_reset_click_handler
 
 
 void
-animateAll_click_handler
-( ClickRecognizerRef recognizer
-, void              *context
-)
-{
-  Clock3D_animateAll( &s_clock ) ;
-  app_timer_register( ANIMATION_INTERVAL_MS, world_update_timer_handler, NULL ) ;   // Schedule a world update.
-}
-
-
-void
 gifStepper_click_config_provider
 ( void *context )
 {
@@ -133,12 +132,12 @@ gifStepper_click_config_provider
                                , (ClickHandler) gifStepper_jump_click_handler
                                ) ;
 
-  window_single_click_subscribe( BUTTON_ID_SELECT
+  window_single_click_subscribe( BUTTON_ID_DOWN
                                , (ClickHandler) gifStepper_advance_click_handler
                                ) ;
 
-  window_single_click_subscribe( BUTTON_ID_DOWN
-                               , (ClickHandler) animateAll_click_handler
+  window_single_click_subscribe( BUTTON_ID_BACK
+                               , (ClickHandler) gif_dummy_click_handler
                                ) ;
 }
 

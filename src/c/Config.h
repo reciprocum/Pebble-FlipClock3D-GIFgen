@@ -3,15 +3,15 @@
    File   : Config.h
    Author : Afonso Santos, Portugal
 
-   Last revision: 15h44 September 03 2016  GMT
+   Last revision: 25 October 2016
 */
 
 #pragma once
 
 // Uncommenting the next line will enable all LOG* calls.
-//#define LOG
+#define LOG
 
-#ifdef LOG
+#if defined(LOG)
   #define LOGD(fmt, ...) APP_LOG(APP_LOG_LEVEL_DEBUG, fmt, ##__VA_ARGS__)
   #define LOGI(fmt, ...) APP_LOG(APP_LOG_LEVEL_INFO, fmt, ##__VA_ARGS__)
   #define LOGW(fmt, ...) APP_LOG(APP_LOG_LEVEL_WARNING, fmt, ##__VA_ARGS__)

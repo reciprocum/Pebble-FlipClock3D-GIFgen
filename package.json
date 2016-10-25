@@ -1,7 +1,7 @@
 {
     "author": "Karambola",
     "dependencies": {
-        "karambola": "https://builds.cloudpebble.net/f72d047e-bf91-497d-84cf-e560c5de4e61/package.tar.gz"
+        "karambola": "https://builds.cloudpebble.net/fac89119-703a-442e-824e-cbe11610011c/package.tar.gz"
     },
     "keywords": [],
     "name": "gifgen",
@@ -17,7 +17,8 @@
         "targetPlatforms": [
             "basalt",
             "chalk",
-            "diorite"
+            "diorite",
+            "emery"
         ],
         "uuid": "4736999a-9ce4-4973-97aa-fd60540cb2d4",
         "watchapp": {
